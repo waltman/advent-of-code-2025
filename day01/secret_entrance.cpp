@@ -25,8 +25,10 @@ int main(int argc, char *argv[]) {
     string line;
     while (!infile.eof()) {
         getline(infile, line);
+        if (line.size() < 2)
+            continue;
         int dir = line[0] == 'R' ? 1 : -1;
-        int cnt = atoi(line.c_str()+1) * dir;
+        int cnt = stoi(line.substr(1)) * dir;
         pos1 = (pos1 + cnt) % 100;
         if (pos1 == 0)
             part1++;
