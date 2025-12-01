@@ -4,7 +4,7 @@ INCLDIRS =
 LIBDIRS =
 LIBS =
 CFLAGS = -Wall -O3 $(INCLDIRS)
-CPPFLAGS = -std=c++17 -Wall -O3 $(INCLDIRS)
+CPPFLAGS = -std=c++23 -Wall -O3 $(INCLDIRS)
 CPPOBJECTS = secret_entrance.o
 
 all: secret_entrance
