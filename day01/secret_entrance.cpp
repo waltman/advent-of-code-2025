@@ -1,0 +1,46 @@
+#include <stdlib.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+int mod(int a, int b) {
+    return (a % b + b) % b;
+}
+
+int main(int argc, char *argv[]) {
+    const string fname = argv[1];
+    int part1 = 0;
+    int part2 = 0;
+    int pos1 = 50;
+    int pos2 = 50;
+
+    ifstream infile(fname);
+    if (!infile) {
+        perror(fname.c_str());
+        exit(1);
+    }
+
+    string line;
+    while (!infile.eof()) {
+        getline(infile, line);
+        int dir = line[0] == 'R' ? 1 : -1;
+        int cnt = atoi(line.c_str()+1) * dir;
+        pos1 = (pos1 + cnt) % 100;
+        if (pos1 == 0)
+            part1++;
+
+        bool on_zero = (pos2 == 0);
+        pos2 += cnt;
+
+        if (pos2 <= 0 && !on_zero)
+            part2++;
+
+        part2 += abs(pos2) / 100;
+        pos2 = mod(pos2, 100);
+    }
+
+    cout << "Part 1: " << part1 << endl;
+    cout << "Part 2: " << part2 << endl;
+}
