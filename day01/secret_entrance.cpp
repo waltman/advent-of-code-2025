@@ -27,13 +27,13 @@ int main(int argc, char *argv[]) {
         getline(infile, line);
         if (line.size() < 2)
             continue;
-        int dir = line[0] == 'R' ? 1 : -1;
-        int cnt = stoi(line.substr(1)) * dir;
+        const int dir = line[0] == 'R' ? 1 : -1;
+        const int cnt = stoi(line.substr(1)) * dir;
         pos1 = (pos1 + cnt) % 100;
         if (pos1 == 0)
             part1++;
 
-        bool on_zero = (pos2 == 0);
+        const bool on_zero = (pos2 == 0);
         pos2 += cnt;
 
         if (pos2 <= 0 && !on_zero)
