@@ -6,14 +6,16 @@ my ($pos, $pos2) = (50, 50);
 
 while (<<>>) {
     my $dir = substr($_, 0, 1) eq 'R' ? 1 : -1;
-    my $cnt = substr($_, 1);
-    $pos = ($pos + ($cnt * $dir)) % 100;
+    my $cnt = substr($_, 1) * $dir;
+    $pos = ($pos + $cnt) % 100;
     $part1++ unless $pos;
 
-    for my $i (1..$cnt) {
-        $pos2 = ($pos2 + $dir) % 100;
-        $part2++ unless $pos2;
-    }
+    my $on_zero = $pos2 == 0;
+    $pos2 += $cnt;
+
+    $part2++ if ($pos2 <= 0 && ! $on_zero);
+    $part2 += int(abs($pos2) / 100);
+    $pos2 %= 100;
 }
 
 say "Part 1: $part1";
