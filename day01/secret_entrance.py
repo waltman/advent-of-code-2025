@@ -6,8 +6,8 @@ pos = 50
 pos2 = 50
 with open(argv[1]) as f:
     for line in f:
-        direction = 1 if line[0] == 'R' else -1
-        cnt = int(line[1:]) * direction
+        sign = 1 if line[0] == 'R' else -1
+        cnt = int(line[1:]) * sign
         pos = (pos + cnt) % 100
         if pos == 0:
             part1 += 1

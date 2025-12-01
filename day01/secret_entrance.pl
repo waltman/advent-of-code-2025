@@ -5,8 +5,8 @@ my ($part1, $part2);
 my ($pos, $pos2) = (50, 50);
 
 while (<<>>) {
-    my $dir = substr($_, 0, 1) eq 'R' ? 1 : -1;
-    my $cnt = substr($_, 1) * $dir;
+    my $sign = substr($_, 0, 1) eq 'R' ? 1 : -1;
+    my $cnt = substr($_, 1) * $sign;
     $pos = ($pos + $cnt) % 100;
     $part1++ unless $pos;
 
