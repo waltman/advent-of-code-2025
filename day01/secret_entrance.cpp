@@ -27,8 +27,8 @@ int main(int argc, char *argv[]) {
         getline(infile, line);
         if (line.size() < 2)
             continue;
-        const int dir = line[0] == 'R' ? 1 : -1;
-        const int cnt = stoi(line.substr(1)) * dir;
+        const int sign = line[0] == 'R' ? 1 : -1;
+        const int cnt = stoi(line.substr(1)) * sign;
         pos1 = (pos1 + cnt) % 100;
         if (pos1 == 0)
             part1++;
