@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int mod(int a, int b) {
+const int mod(const int a, const int b) {
     return (a % b + b) % b;
 }
 
