@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
+#include <errno.h>
 #include <string>
 
 using namespace std;
@@ -20,7 +21,7 @@ int main(int argc, char *argv[]) {
     ifstream infile(fname);
     if (!infile) {
         perror(fname.c_str());
-        exit(1);
+        exit(errno);
     }
 
     string line;
