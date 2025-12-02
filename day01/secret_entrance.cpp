@@ -7,7 +7,7 @@
 using namespace std;
 
 template <typename T>
-const T mod(const T a, const T b) {
+inline const T mod(const T a, const T b) {
     return (a % b + b) % b;
 }
 
