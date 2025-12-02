@@ -1,5 +1,5 @@
 from sys import argv
-import re
+from itertools import product
 
 with open(argv[1]) as f:
     ranges = [[int(d) for d in p.split('-')] for p in [pair for pair in f.read().rstrip().split(',')]]
@@ -8,18 +8,13 @@ pairs = {int(str(x) * 2) for x in range(1, 100_000)}
 
 dups = pairs.copy()
 # 3 copies
-for i in range(1, 1000):
-    dups.add(int(str(i) * 3))
+dups |= {int(str(i) * 3) for i in range(1,1000)}
 
 # 4-5 copies
-for i in range(1, 100):
-    for copies in range(4, 6):
-        dups.add(int(str(i) * copies))
+dups |= {int(str(i) * copies) for i,copies in product(range(1,100), range(4,6))}
 
 # 6-10 copies
-for i in range(1, 10):
-    for copies in range(6, 11):
-        dups.add(int(str(i) * copies))
+dups |= {int(str(i) * copies) for i,copies in product(range(1,10), range(6,11))}
 
 part1 = 0
 part2 = 0
