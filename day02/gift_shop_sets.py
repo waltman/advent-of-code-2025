@@ -16,11 +16,7 @@ dups |= {int(str(i) * copies) for i,copies in product(range(1,100), range(4,6))}
 # 6-10 copies
 dups |= {int(str(i) * copies) for i,copies in product(range(1,10), range(6,11))}
 
-part1 = 0
-part2 = 0
-for r in ranges:
-    part1 += sum(set(range(r[0], r[1]+1)) & pairs)
-    part2 += sum(set(range(r[0], r[1]+1)) & dups)
-
+part1 = sum([sum(set(range(r[0], r[1]+1)) & pairs) for r in ranges])
+part2 = sum([sum(set(range(r[0], r[1]+1)) & dups) for r in ranges])
 print('Part 1:', part1)
 print('Part 2:', part2)
