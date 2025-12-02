@@ -5,7 +5,8 @@
 
 using namespace std;
 
-const int mod(const int a, const int b) {
+template <typename T>
+const T mod(const T a, const T b) {
     return (a % b + b) % b;
 }
 
