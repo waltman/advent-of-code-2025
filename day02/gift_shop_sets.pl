@@ -11,21 +11,25 @@ while (<<>>) {
     }
 }
 
-my $dups = Set::Scalar->new(map {$_ x 2} 1..99_999);
-my $pairs = $dups->clone;
+my %pairs = map {$_ x 2 => 1} 1..99_999;
+my %dups = map {$_ x 2 => 1} 1..99_999;
 
-$dups->insert(map {$_ x 3} 1..999);
-
+$dups{$_ x 3} = 1 for 1..999;
 for my $copies (4..5) {
-    $dups->insert(map {$_ x $copies} 1..99);
+    $dups{$_ x $copies} = 1 for 1..99;
 }
 
 for my $copies (6..10) {
-    $dups->insert(map {$_ x $copies} 1..9);
+    $dups{$_ x $copies} = 1 for 1..9;
 }
 
-my $part1 = sum map {(Set::Scalar->new($_->[0]..$_->[1]) * $pairs)->members} @ranges;
-my $part2 = sum map {(Set::Scalar->new($_->[0]..$_->[1]) * $dups)->members} @ranges;
+my ($part1, $part2);
+for my $range (@ranges) {
+    for my $i ($range->[0]..$range->[1]) {
+        $part1 += $i if defined $pairs{$i};
+        $part2 += $i if defined $dups{$i};
+    }
+}
 
 say "Part 1: $part1";
 say "Part 2: $part2";
