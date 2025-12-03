@@ -1,11 +1,10 @@
 from sys import argv
-from itertools import combinations
 
-def best_joltage(bank):
+def best_joltage(bank, size):
     joltage = 0
     pos = 0
-    for i in range(12):
-        remaining = 12-i
+    for i in range(size):
+        remaining = size-i
         last_n = len(bank) - remaining + 1
         best_val = 0
         for n in range(pos, last_n):
@@ -22,8 +21,8 @@ def best_joltage(bank):
 with open(argv[1]) as f:
     banks = [[int(c) for c in line.rstrip()] for line in f]
 
-part1 = sum([max([n1*10 + n2 for n1,n2 in combinations(bank, 2)]) for bank in banks])
+part1 = sum([best_joltage(bank, 2) for bank in banks])
 print('Part 1:', part1)
 
-part2 = sum([best_joltage(bank) for bank in banks])
+part2 = sum([best_joltage(bank, 12) for bank in banks])
 print('Part 2:', part2)
