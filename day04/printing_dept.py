@@ -39,4 +39,21 @@ def main():
 
     print('Part 1:', part1)
 
+    part2 = 0
+    done = False
+    while not done:
+        rolls = []
+        for r,c in product(range(nrows), range(ncols)):
+            if grid[r,c] == '@' and num_adjacent(grid, r, c) < 4:
+                part2 += 1
+                rolls.append((r,c))
+
+        if rolls:
+            for r,c in rolls:
+                grid[r,c] = '.'
+        else:
+            done = True
+
+    print('Part 2:', part2)
+
 main()
