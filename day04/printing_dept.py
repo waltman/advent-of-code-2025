@@ -42,15 +42,16 @@ def main():
     part2 = 0
     done = False
     while not done:
-        rolls = []
+        rows = []
+        cols = []
         for r,c in product(range(nrows), range(ncols)):
             if grid[r,c] == '@' and num_adjacent(grid, r, c) < 4:
                 part2 += 1
-                rolls.append((r,c))
+                rows.append(r)
+                cols.append(c)
 
-        if rolls:
-            for r,c in rolls:
-                grid[r,c] = '.'
+        if rows:
+            grid[rows,cols] = '.'
         else:
             done = True
 
