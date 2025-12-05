@@ -3,13 +3,14 @@ import sys
 def merge_ranges(ranges):
     ranges.sort()
     result = [ranges[0]]
-    for i in range(1,len(ranges)):
+    for curr in ranges[1:]:
         last = result[-1]
-        curr = ranges[i]
-
+ 
         if curr[0] <= last[1]:
+            # curr overlaps last, so (possibly) extend last
             last[1] = max(last[1], curr[1])
         else:
+            # no overlap, so add curr as the last range
             result.append(curr)
 
     return result
