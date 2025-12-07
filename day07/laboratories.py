@@ -10,7 +10,7 @@ def main():
     for col in range(ncols):
         if grid[0,col] == 'S':
             beams = {col}
-            stack = [(0, col,[(0,col)])]
+            start_col = col
             break
     
     # now track the beam as it goes down
@@ -29,35 +29,21 @@ def main():
 
     print('Part 1:', part1)
 
-    part2 = 0
-    timelines = set()
-    while stack:
-        row, col, path = stack.pop()
-        new_path = path + [(row, col)]
-#        print(f'checking {row} {col} {new_path}')
-        if tuple(new_path) not in timelines:
-#            print('adding')
-            timelines.add(tuple(path))
-            if row == nrows-1:
-                part2 += 1
-            elif grid[row,col] == '^':
-                stack.append((row, col-1, path + [(row+1, col-1)]))
-                stack.append((row, col+1, path + [(row+1, col+1)]))
-            else:
-                # keep going until we hit a splitter or the bottom
-                done = True
-                for r in range(row+1, nrows):
-                    if grid[r,col] == '^':
-                        stack.append((r, col-1, path + [(r+1, col-1)]))
-                        stack.append((r, col+1, path + [(r+1, col-1)]))
-                        done = False
-                        break
-                if done:
-                    part2 += 1
-                    print(part2, len(stack), len(timelines))
-        else:
-            print('skipping')
+    counts = [0] * ncols
+    counts[start_col] = 1
 
-    print('Part 2:', part2)
+    for row in range(1, nrows):
+        new_counts = [0] * ncols
+        new_counts[0] = counts[0]
+        new_counts[-1] = counts[-1]
+        for col in range(1, ncols-1):
+            if grid[row,col] == '.':
+                new_counts[col] += counts[col]
+            else:
+                new_counts[col-1] += counts[col]
+                new_counts[col+1] += counts[col]
+        counts = new_counts.copy()
+
+    print('Part 2:', sum(counts))
 
 main()
