@@ -7,17 +7,18 @@ def dist(b1, b2):
     return sqrt(sum([(b1[0]-b2[0])**2, (b1[1]-b2[1])**2, (b1[2]-b2[2])**2]))
 
 def main():
-    with open(sys.argv[1]) as f:
-        boxes = [[int(tok) for tok in line.rstrip().split(',')] for line in f]
+    fname = sys.argv[1]
+    num_juncs = int(sys.argv[2])
+    with open(fname) as f:
+        boxes = []
+        for line in f:
+            p1,p2,p3 = [int(n) for n in line.split(',')]
+            boxes.append((p1,p2,p3))
+                        
 
-    min_dist = 1e300
-    for b1,b2 in combinations(boxes, 2):
-        # d = dist(b1, b2)
-        # print(b1, b2, d)
-        if (d := dist(b1, b2)) < min_dist:
-            min_dist = d
-            best_pair = b1, b2
+    dists = {(b1,b2): dist(b1, b2) for b1, b2 in combinations(boxes, 2)}
 
-    print(best_pair)
+    js = [item[0] for item in sorted(dists.items(), key=lambda item: item[1])][:num_juncs]
+    print(js)
 
 main()
