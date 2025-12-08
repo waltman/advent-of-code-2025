@@ -2,6 +2,7 @@ import sys
 from math import sqrt
 from itertools import combinations
 import networkx as nx
+from math import prod
 
 def dist(b1, b2):
     return sqrt(sum([(b1[0]-b2[0])**2, (b1[1]-b2[1])**2, (b1[2]-b2[2])**2]))
@@ -17,10 +18,8 @@ def main():
                         
 
     print(boxes)
-    G = nx.Graph(boxes)
-    # for box in boxes:
-    #     print(box)
-    #     G.add_node(box)
+    G = nx.Graph()
+    G.add_nodes_from(boxes)
         
     dists = {(b1,b2): dist(b1, b2) for b1, b2 in combinations(boxes, 2)}
 
@@ -29,6 +28,6 @@ def main():
         b1, b2 = box_pair
         G.add_edge(b1, b2)
 
-    print(f'G has {nx.number_connected_components(G)} connected components')
-
+    print('Part 1:', prod([len(c) for c in sorted(nx.connected_components(G), key=len, reverse=True)][0:3]))
+    
 main()
