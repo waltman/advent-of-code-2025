@@ -16,9 +16,19 @@ def main():
             boxes.append((p1,p2,p3))
                         
 
+    print(boxes)
+    G = nx.Graph(boxes)
+    # for box in boxes:
+    #     print(box)
+    #     G.add_node(box)
+        
     dists = {(b1,b2): dist(b1, b2) for b1, b2 in combinations(boxes, 2)}
 
     js = [item[0] for item in sorted(dists.items(), key=lambda item: item[1])][:num_juncs]
-    print(js)
+    for box_pair in js:
+        b1, b2 = box_pair
+        G.add_edge(b1, b2)
+
+    print(f'G has {nx.number_connected_components(G)} connected components')
 
 main()
