@@ -2,9 +2,10 @@
 #include <iostream>
 #include <fstream>
 #include <errno.h>
-#include <string.h>
 #include <string>
 #include <vector>
+#include <memory>
+#include <algorithm>
 
 using namespace std;
 
@@ -31,8 +32,8 @@ int main(int argc, char *argv[]) {
 
     // find the initial column of the beam
     int start_col = 0;
-    int beams[ncols];
-    memset(beams, 0, sizeof(beams));
+    int *beams = new int[ncols];
+    fill(beams, beams+ncols, 0);
     for (size_t col = 0; col < ncols; col++)
         if (grid[0][col] == 'S') {
             beams[col] = 1;
@@ -42,8 +43,7 @@ int main(int argc, char *argv[]) {
 
     // track the beam as if goes down
     for (size_t row = 1; row < nrows; row++) {
-        int new_beams[ncols];
-        memset(new_beams, 0, sizeof(new_beams));
+        unique_ptr<int[]> new_beams(new int[ncols]);
         for (size_t col = 0; col < ncols; col++) {
             if (beams[col]) {
                 if (grid[row][col] == '^') {
@@ -54,16 +54,18 @@ int main(int argc, char *argv[]) {
                     new_beams[col] = 1;
             }
         }
-        memcpy(beams, new_beams, sizeof(beams));
+
+        for (size_t i = 0; i < ncols; i++)
+            beams[i] = new_beams[i];
     }
     cout << "Part 1: " << part1 << endl;
         
-    unsigned long long counts[ncols];
-    unsigned long long new_counts[ncols];
-    memset(counts, 0, sizeof(counts));
+    unsigned long long *counts = new unsigned long long[ncols];
+    unsigned long long *new_counts = new unsigned long long[ncols];
+    fill(counts, counts+ncols, 0);
     counts[start_col] = 1;
     for (size_t row = 1; row < nrows; row++) {
-        memset(new_counts, 0, sizeof(new_counts));
+        fill(new_counts, new_counts+ncols, 0);
         new_counts[0] = counts[0];
         new_counts[ncols-1] = counts[ncols-1];
         for (size_t col = 1; col < ncols-1; col++) {
@@ -74,7 +76,7 @@ int main(int argc, char *argv[]) {
                 new_counts[col+1] += counts[col];
             }
         }
-        memcpy(counts, new_counts, sizeof(counts));
+        copy(new_counts, new_counts+ncols, counts);
     }
 
     for (size_t i = 0; i < ncols; i++)
