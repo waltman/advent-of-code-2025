@@ -1,11 +1,10 @@
 import sys
-from math import sqrt
 from itertools import combinations
 import networkx as nx
 from math import prod
 
 def dist(b1, b2):
-    return sqrt(sum([(b1[0]-b2[0])**2, (b1[1]-b2[1])**2, (b1[2]-b2[2])**2]))
+    return sum([(b1[0]-b2[0])**2, (b1[1]-b2[1])**2, (b1[2]-b2[2])**2])
 
 def main():
     fname = sys.argv[1]
