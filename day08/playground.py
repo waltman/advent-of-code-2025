@@ -17,17 +17,24 @@ def main():
             boxes.append((p1,p2,p3))
                         
 
-    print(boxes)
     G = nx.Graph()
     G.add_nodes_from(boxes)
         
     dists = {(b1,b2): dist(b1, b2) for b1, b2 in combinations(boxes, 2)}
 
-    js = [item[0] for item in sorted(dists.items(), key=lambda item: item[1])][:num_juncs]
-    for box_pair in js:
+    sorted_juncs = [item[0] for item in sorted(dists.items(), key=lambda item: item[1])]
+    for box_pair in sorted_juncs[:num_juncs]:
         b1, b2 = box_pair
         G.add_edge(b1, b2)
 
     print('Part 1:', prod([len(c) for c in sorted(nx.connected_components(G), key=len, reverse=True)][0:3]))
     
+    i = num_juncs
+    while nx.number_connected_components(G) > 1:
+        b1, b2 = sorted_juncs[i]
+        G.add_edge(b1, b2)
+        i += 1
+
+    print('Part 2:', b1[0] * b2[0])
+
 main()
